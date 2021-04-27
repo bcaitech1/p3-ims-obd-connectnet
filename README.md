@@ -14,8 +14,6 @@
 
 
 
----
-
 # Ground rule
 
 1. 공유 코드 작성 시
@@ -41,20 +39,19 @@
 
    * 실험 내용과 결과 알려주기 
 
-   
-
----
-
-
-
-# 회의 기록
-
-
 
 
 
 # 참고 자료
 
+### 논문
+
 * [Zero-Shot Object Detection](https://arxiv.org/abs/1804.04340)
 
-  
+
+
+### 편의 기능
+
+* [GIt 사용하기]()
+* [서버에서 제출하기 CODE](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/akorea/akorea/submit.py)
+
