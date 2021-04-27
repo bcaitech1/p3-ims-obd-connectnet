@@ -51,7 +51,7 @@ git branch -a
 
 ### branch update
 
-현재 저장소에 등록되어 있는 모든 branch에 대해 정보를 update 시키며, 로컬 branch에 추가되는 것이 아닌,
+저장소에 등록되어 있는 모든 branch에 대해 정보를 update 시키며, 로컬 branch에 추가되는 것이 아닌,
 
 `git branch -a` 를 통해 추가된 정보를 확인 가능하다.
 
@@ -92,5 +92,15 @@ git push origin headbreakz
 
 
 
+### 다른 사람의 branch 등록하고 파일보기
+
+현재의 로컬에 remote에 있는 branch를 불러와서 checkout을 한다. branch가 변경되면서, 해당 branch의 파일을 확인 할 수 있으며, `현재 폴더를 확인 할 경우` 기존에 사용했던 branch의 파일이 아닌 현재 branch 파일로 유지된다
+
+```
+git checkout -t origin/<branch name>
+ex) git checkout -t origin/jongho
+```
 
 
+
+__현재 branch__ : jongho
