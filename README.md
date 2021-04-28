@@ -50,8 +50,21 @@
 
 
 
+### GIt
+
+* [Segmentation loss](https://github.com/JunMa11/SegLoss)
+
+
+
+### Site
+
+* [TACO Dataset](http://tacodataset.org/)
+* [DeepLab_V3+](https://medium.com/hyunjulie/2%ED%8E%B8-%EB%91%90-%EC%A0%91%EA%B7%BC%EC%9D%98-%EC%A0%91%EC%A0%90-deeplab-v3-ef7316d4209d)
+
+
+
 ### 편의 기능
 
-* [GIt 사용하기]()
+* [GIt 사용하기](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/headbreakz/git.md)
 * [서버에서 제출하기 CODE](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/akorea/akorea/submit.py)
 
