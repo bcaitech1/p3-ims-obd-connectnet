@@ -59,8 +59,8 @@ if __name__ == '__main__':
     # best model 저장된 경로
     model_path = './saved/efficientnet_baseline.pt'
     # submission저장
-    output_file = "./submission/efficientnet_baseline_python.csv"
-    dataset_path = '../input/data'
+    output_file = "./submission/efficientnet_baseline_python_util.csv"
+    dataset_path = '../../input/data'
     test_path = dataset_path + '/test.json'
     batch_size = 8   # Mini-batch size
     device = "cuda" if torch.cuda.is_available() else "cpu"
