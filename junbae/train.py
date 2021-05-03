@@ -27,6 +27,7 @@ import random
 import time
 import json
 import warnings
+from models.DeepV3 import *
 warnings.filterwarnings('ignore')
 
 
@@ -79,6 +80,8 @@ def train(num_epochs, model, data_loader, val_loader, criterion, optimizer, save
                 print('Save model in', saved_dir)
                 best_mIoU = val_mIoU
                 save_model(model, saved_dir, file_name)
+            wandb.log({"val_loss": avrg_loss, "val_mIoU": val_mIoU,
+                      "best_mIoU": best_mIoU})
 
 
 def validation(epoch, model, data_loader, criterion, device, n_class):
@@ -130,25 +133,33 @@ def save_model(model, saved_dir, file_name):
 
 if __name__ == '__main__':
     # 시드 고정
-    wandb.init(project='seg_det', entity='deokisys',
-               name="efficient-b0 unet b8 e20")
     seed_everything(21)
+    wandb.init(project='seg_det', entity='deokisys',
+               name="----deepv3 vgg16 b8 e20")
 
-    file_name = "efficientnet_baseline.pt"
+    file_name = "deepv3_vgg16_b8_e20.pt"
     batch_size = 8   # Mini-batch size
     num_epochs = 20
     learning_rate = 0.0001
     weight_decay = 1e-6
     # 모델 저장 함수 정의
     val_every = 1
-
+    # 모델 정의
+    # model = DeepLabV3(n_classes=12, n_blocks=[
+    #     3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
+    # model = smp.Unet(encoder_name='timm-efficientnet-b3', in_channels=3, classes=12,
+    #                  encoder_weights="imagenet", activation=None)
+    model = DeepLabV3_vgg16pretrained(
+        n_classes=12, n_blocks=[3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
+    # 데이터셋 경로
     dataset_path = '../../input/data'
     # anns_file_path = dataset_path + '/' + 'train.json'
-
+    # train과 val경로
     train_path = dataset_path + '/train.json'
     val_path = dataset_path + '/val.json'
-
+    # 학습 후 모델 저장 경로
     saved_dir = './saved'
+
     if not os.path.isdir(saved_dir):
         os.mkdir(saved_dir)
 
@@ -208,14 +219,6 @@ if __name__ == '__main__':
                                              num_workers=4,
                                              collate_fn=collate_fn,
                                              drop_last=True)
-
-    # model = DeepLabV3(n_classes=12, n_blocks=[
-    #     3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
-
-    # model 불러오기
-    # 출력 레이블 수 정의 (classes = 12)
-    model = smp.Unet(encoder_name='efficientnet-b0', in_channels=3, classes=12,
-                     encoder_weights="imagenet", activation=None)
 
     x = torch.randn([2, 3, 512, 512])
     print("input shape : ", x.shape)

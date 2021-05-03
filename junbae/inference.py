@@ -12,6 +12,7 @@ import random
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from utils import seed_everything
+from models.DeepV3 import *
 
 
 def collate_fn(batch):
@@ -57,12 +58,17 @@ def test(model, data_loader, device):
 if __name__ == '__main__':
     seed_everything(21)
     # best model 저장된 경로
-    model_path = './saved/efficientnet_baseline.pt'
+    model_path = './saved/deepv3_vgg16_b8_e20.pt'
     # submission저장
-    output_file = "./submission/efficientnet_baseline_python_util.csv"
+    output_file = "./submission/deepv3_vgg16_b8_e20.csv"
     dataset_path = '../../input/data'
     test_path = dataset_path + '/test.json'
     batch_size = 8   # Mini-batch size
+
+    # 모델
+    model = DeepLabV3_vgg16pretrained(
+        n_classes=12, n_blocks=[3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     category_names = ['Backgroud',
@@ -87,8 +93,6 @@ if __name__ == '__main__':
 
     checkpoint = torch.load(model_path, map_location=device)
 
-    model = smp.Unet(encoder_name='efficientnet-b0', classes=12,
-                     encoder_weights="imagenet", activation=None)
     model = model.to(device)
 
     model.load_state_dict(checkpoint)

@@ -1,0 +1,6 @@
+saved/
+submission/
+config.py
+wandb/
+/__pycache__/
+models/__pycache__
