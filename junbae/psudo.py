@@ -12,6 +12,7 @@ from albumentations.pytorch import ToTensorV2
 import numpy as np
 import torch.nn.functional as F
 from utils import label_accuracy_score, seed_everything, add_hist
+from models.smp import *
 
 def collate_fn(batch):
     return tuple(zip(*batch))
@@ -80,57 +81,30 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
     file_name_list = []
     model.train()
     for epoch in range(num_epochs):
+        hist = np.zeros((n_class, n_class))
         for batch_idx, (imgs, image_infos) in enumerate(unlabeled_loader):
 
             # Forward Pass to get the pseudo labels
-
+            #--------------------------------------------- test(unlabelse)를 모델에 통과
             model.eval()
             outs = model(torch.stack(imgs).to(device))
             oms = torch.argmax(
                 outs.squeeze(), dim=1).detach().cpu().numpy()
+            oms = torch.Tensor(oms)
+            oms = oms.long()
+            oms = oms.to(device)
 
-            # resize (256 x 256)
-            # temp_mask = []
-            # for img, mask in zip(np.stack(imgs), oms):
-            #     transformed = transform(image=img, mask=mask)
-            #     mask = transformed['mask']
-            #     temp_mask.append(mask)
+            #--------------------------------------------- 학습
 
-            # oms = np.array(temp_mask)
-
-            # oms = oms.reshape([oms.shape[0], size*size]).astype(int)
-            # preds_array = np.vstack((preds_array, oms))
-
-            # file_name_list.append([i['file_name'] for i in image_infos])
-
-            # 학습~--------------
             model.train()
-
             # Now calculate the unlabeled loss using the pseudo label
             imgs = torch.stack(imgs)
             imgs = imgs.to(device)
             # preds_array = preds_array.to(device)
 
             output = model(imgs)
-            #
 
-            # print(oms.shape)
-            # print(type(oms))
-            oms = torch.Tensor(oms)
-            # print(type(oms))
-            oms = oms.long()
-            # print(type(oms))
-            # print(oms)
-            # oms = torch.stack(oms).long()
-
-            # preds_array = torch.Tensor(preds_array)
-            # preds_array = torch.stack(preds_array).long()
-            oms = oms.to(device)
-            # print(oms.shape)
-            # print(output.shape)
-            # 로스계산
-            # unlabeled_loss = alpha_weight(
-            #     step) * F.nll_loss(output, preds_array)
+           
             unlabeled_loss = alpha_weight(
                 step) * criterion(output, oms)
 
@@ -138,9 +112,17 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
             optimizer.zero_grad()
             unlabeled_loss.backward()
             optimizer.step()
-
+            output = torch.argmax(
+                output.squeeze(), dim=1).detach().cpu().numpy()
+            hist = add_hist(hist, oms.detach().cpu().numpy(),
+                            output, n_class=n_class)
+            
             # For every 50 batches train one epoch on labeled data
             # 50배치마다 라벨데이터를 1 epoch학습
+            if (batch_idx + 1) % 25 == 0:
+                acc, acc_cls, mIoU, fwavacc = label_accuracy_score(hist)
+                print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}, mIoU:{:.4f}'.format(
+                    epoch+1, num_epochs, batch_idx+1, len(unlabeled_loader), unlabeled_loss.item(), mIoU))
             if batch_idx % 50 == 0:
 
                 # Normal training procedure
@@ -153,7 +135,7 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
                     images, masks = images.to(device), masks.to(device)
 
                     output = model(images)
-                    labeled_loss = F.nll_loss(output, masks)
+                    labeled_loss = criterion(output, masks)
 
                     optimizer.zero_grad()
                     labeled_loss.backward()
@@ -162,18 +144,12 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
                 # Now we increment step by 1
                 step += 1
 
-        # test_acc, test_loss = evaluate(model, test_loader)
         avrg_loss, val_mIoU = validation(
             epoch + 1, model, val_loader, criterion, device, n_class)
 
         print('Epoch: {} : Alpha Weight : {:.5f} | Test miou/ : {:.5f} | Test loss : {:.3f} '.format(
             epoch, alpha_weight(step), val_mIoU, avrg_loss))
 
-        # """ LOGGING VALUES """
-        # alpha_log.append(alpha_weight(step))
-        # test_acc_log.append(test_acc/100)
-        # test_loss_log.append(test_loss)
-        # """ ************** """
         model.train()
 
 
@@ -264,9 +240,10 @@ if __name__ == '__main__':
                       'Battery',
                       'Clothing']
     # 모델
-    model_path = './saved/deepv3_vgg16_b8_e20.pt'
-    model = DeepLabV3_vgg16pretrained(
-        n_classes=12, n_blocks=[3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
+    model_path = './saved/fpn_b16_e20.pt'
+
+    model = get_smp_model('FPN','efficientnet-b0')
+
     checkpoint = torch.load(model_path, map_location=device)
     model = model.to(device)
     model.load_state_dict(checkpoint)

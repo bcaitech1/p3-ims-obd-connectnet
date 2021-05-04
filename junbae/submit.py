@@ -39,5 +39,5 @@ desc = "description"   # 변경 : 파일에 대한 설명
 output_file = "Baseline_FCN8s(pretrained).csv"  # 변경 : output 파일
 
 
-submit(config.submitkey, "./submission/deepv3_vgg16_b8_e20.csv",
-       "deepv3 vgg16(pretrained) b8 e20 테스트 실행")
+submit(config.submitkey, "./submission/fpn_b16_e20.csv",
+       "fpn batch16 epoch20 실행")
