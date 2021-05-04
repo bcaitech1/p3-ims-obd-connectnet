@@ -22,3 +22,8 @@
 ## submit.py
 - config.py에 submitkey변수에 키를 넣어준다.
 - 보낼 파일명, 설명을 적어서 실행하면 된다.
+
+## psudo.py
+- 슈도라벨링 진행
+- 모델 deepv3 vgg16(pretrained)를학습한 모델을 기준으로 진행
+- train.py실행후 psudo.py실행
