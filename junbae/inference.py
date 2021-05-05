@@ -59,9 +59,9 @@ def test(model, data_loader, device):
 if __name__ == '__main__':
     seed_everything(21)
     # best model 저장된 경로
-    model_path = './saved/psudo_test2.pt'
+    model_path = './saved/psudo_test_best_moiu.pt'
     # submission저장
-    output_file = "./submission/psudo_test2.csv"
+    output_file = "./submission/psudo_test_best_miou.csv"
     dataset_path = '../../input/data'
     test_path = dataset_path + '/test.json'
     batch_size = 16   # Mini-batch size

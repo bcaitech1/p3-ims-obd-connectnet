@@ -39,5 +39,5 @@ desc = "description"   # 변경 : 파일에 대한 설명
 output_file = "Baseline_FCN8s(pretrained).csv"  # 변경 : output 파일
 
 
-submit(config.submitkey, "./submission/psudo_test2.csv",
-       "psudo_labeling test2  실행")
+submit(config.submitkey, "./submission/psudo_test_best_miou.csv",
+       "psudo_labeling best miou기준 저장")

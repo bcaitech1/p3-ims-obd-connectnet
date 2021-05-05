@@ -264,3 +264,4 @@ if __name__ == '__main__':
         params=model.parameters(), lr=learning_rate, weight_decay=weight_decay)
     psudo_labeling(num_epochs, model, train_loader, val_loader, test_loader, criterion,
                    optimizer, device, n_class=12, saved_dir=saved_dir, file_name=file_name, val_every=val_every)
+    save_model(model, './saved', 'psudo_all.pt')
