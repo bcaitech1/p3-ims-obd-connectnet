@@ -14,6 +14,8 @@ import torch.nn.functional as F
 from utils import label_accuracy_score, seed_everything, add_hist
 from models.smp import *
 import os
+import wandb
+
 
 def collate_fn(batch):
     return tuple(zip(*batch))
@@ -72,7 +74,7 @@ def alpha_weight(epoch):
         return ((epoch-T1) / (T2-T1))*af
 
 
-def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader, criterion, optimizer, device, n_class):
+def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader, criterion, optimizer, device, n_class, saved_dir, file_name, val_every):
     # Instead of using current epoch we use a "step" variable to calculate alpha_weight
     # This helps the model converge faster
     step = 100
@@ -80,13 +82,14 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
     transform = A.Compose([A.Resize(256, 256)])
     preds_array = np.empty((0, size*size), dtype=np.long)
     file_name_list = []
+    best_mIoU = 0
     model.train()
     for epoch in range(num_epochs):
         hist = np.zeros((n_class, n_class))
         for batch_idx, (imgs, image_infos) in enumerate(unlabeled_loader):
 
             # Forward Pass to get the pseudo labels
-            #--------------------------------------------- test(unlabelse)를 모델에 통과
+            # --------------------------------------------- test(unlabelse)를 모델에 통과
             model.eval()
             outs = model(torch.stack(imgs).to(device))
             oms = torch.argmax(
@@ -95,7 +98,7 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
             oms = oms.long()
             oms = oms.to(device)
 
-            #--------------------------------------------- 학습
+            # --------------------------------------------- 학습
 
             model.train()
             # Now calculate the unlabeled loss using the pseudo label
@@ -105,7 +108,6 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
 
             output = model(imgs)
 
-           
             unlabeled_loss = alpha_weight(
                 step) * criterion(output, oms)
 
@@ -117,13 +119,13 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
                 output.squeeze(), dim=1).detach().cpu().numpy()
             hist = add_hist(hist, oms.detach().cpu().numpy(),
                             output, n_class=n_class)
-            
-            # For every 50 batches train one epoch on labeled data
-            # 50배치마다 라벨데이터를 1 epoch학습
+
             if (batch_idx + 1) % 25 == 0:
                 acc, acc_cls, mIoU, fwavacc = label_accuracy_score(hist)
                 print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}, mIoU:{:.4f}'.format(
                     epoch+1, num_epochs, batch_idx+1, len(unlabeled_loader), unlabeled_loss.item(), mIoU))
+            # For every 50 batches train one epoch on labeled data
+            # 50배치마다 라벨데이터를 1 epoch학습
             if batch_idx % 50 == 0:
 
                 # Normal training procedure
@@ -145,11 +147,16 @@ def psudo_labeling(num_epochs, model, data_loader, val_loader, unlabeled_loader,
                 # Now we increment step by 1
                 step += 1
 
-        avrg_loss, val_mIoU = validation(
-            epoch + 1, model, val_loader, criterion, device, n_class)
-
-        print('Epoch: {} : Alpha Weight : {:.5f} | Test miou/ : {:.5f} | Test loss : {:.3f} '.format(
-            epoch, alpha_weight(step), val_mIoU, avrg_loss))
+        if (epoch + 1) % val_every == 0:
+            avrg_loss, val_mIoU = validation(
+                epoch + 1, model, val_loader, criterion, device, n_class)
+            if val_mIoU > best_mIoU:
+                print('Best performance at epoch: {}'.format(epoch + 1))
+                print('Save model in', saved_dir)
+                best_mIoU = val_mIoU
+                save_model(model, saved_dir, file_name)
+            wandb.log({"val_loss": avrg_loss, "val_mIoU": val_mIoU,
+                      "best_mIoU": best_mIoU})
 
         model.train()
 
@@ -162,11 +169,14 @@ def save_model(model, saved_dir, file_name):
 
 if __name__ == '__main__':
     seed_everything(21)
+    wandb.init(project='seg_det', entity='deokisys',
+               name="psudo_labeling")
     dataset_path = '../../input/data'
     train_path = dataset_path + '/train.json'
     val_path = dataset_path + '/val.json'
     test_path = dataset_path + '/test.json'
-
+    saved_dir = './saved'
+    file_name = 'psudo_test_best_moiu.pt'
     device = "cuda" if torch.cuda.is_available() else "cpu"
     acc_scores = []
     unlabel = []
@@ -175,11 +185,15 @@ if __name__ == '__main__':
     alpha_log = []
     test_acc_log = []
     test_loss_log = []
-    batch_size = 8   # Mini-batch size
+    batch_size = 16
     num_epochs = 20
     learning_rate = 0.0001
     weight_decay = 1e-6
     val_every = 1
+    # 모델
+    model_path = './saved/fpn_b16_e20.pt'
+
+    model = get_smp_model('FPN', 'efficientnet-b0')
 
     category_names = ['Backgroud',
                       'UNKNOWN',
@@ -240,10 +254,6 @@ if __name__ == '__main__':
                       'Plastic bag',
                       'Battery',
                       'Clothing']
-    # 모델
-    model_path = './saved/fpn_b16_e20.pt'
-
-    model = get_smp_model('FPN','efficientnet-b0')
 
     checkpoint = torch.load(model_path, map_location=device)
     model = model.to(device)
@@ -253,6 +263,4 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(
         params=model.parameters(), lr=learning_rate, weight_decay=weight_decay)
     psudo_labeling(num_epochs, model, train_loader, val_loader, test_loader, criterion,
-                   optimizer, device, n_class=12)
-
-    save_model(model, './saved', 'psudo_test.pt')
+                   optimizer, device, n_class=12, saved_dir=saved_dir, file_name=file_name, val_every=val_every)
