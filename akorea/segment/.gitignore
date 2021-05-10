@@ -1,0 +1,7 @@
+__pycache__/
+saved/
+wandb/
+output/
+asubmit.py
+test.py
+autorun.sh
