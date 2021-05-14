@@ -13,6 +13,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from utils import seed_everything
 from models.DeepV3 import *
+from models.smp import *
 
 
 def collate_fn(batch):
@@ -58,17 +59,17 @@ def test(model, data_loader, device):
 if __name__ == '__main__':
     seed_everything(21)
     # best model 저장된 경로
-    model_path = './saved/deepv3_vgg16_b8_e20.pt'
+    model_path = './saved/psudo_test_best_moiu.pt'
     # submission저장
-    output_file = "./submission/deepv3_vgg16_b8_e20.csv"
+    output_file = "./submission/psudo_test_best_miou.csv"
     dataset_path = '../../input/data'
     test_path = dataset_path + '/test.json'
-    batch_size = 8   # Mini-batch size
+    batch_size = 16   # Mini-batch size
 
     # 모델
-    model = DeepLabV3_vgg16pretrained(
-        n_classes=12, n_blocks=[3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
-
+    # model = DeepLabV3_vgg16pretrained(
+    #     n_classes=12, n_blocks=[3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
+    model = get_smp_model('FPN', 'efficientnet-b0')
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     category_names = ['Backgroud',

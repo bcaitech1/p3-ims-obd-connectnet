@@ -28,6 +28,7 @@ import time
 import json
 import warnings
 from models.DeepV3 import *
+from models.smp import *
 warnings.filterwarnings('ignore')
 
 
@@ -135,10 +136,10 @@ if __name__ == '__main__':
     # 시드 고정
     seed_everything(21)
     wandb.init(project='seg_det', entity='deokisys',
-               name="----deepv3 vgg16 b8 e20")
+               name="fpn-effib0-b8e20")
 
-    file_name = "deepv3_vgg16_b8_e20.pt"
-    batch_size = 8   # Mini-batch size
+    file_name = "fpn_b16_e20.pt"
+    batch_size = 16   # Mini-batch size
     num_epochs = 20
     learning_rate = 0.0001
     weight_decay = 1e-6
@@ -149,8 +150,7 @@ if __name__ == '__main__':
     #     3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
     # model = smp.Unet(encoder_name='timm-efficientnet-b3', in_channels=3, classes=12,
     #                  encoder_weights="imagenet", activation=None)
-    model = DeepLabV3_vgg16pretrained(
-        n_classes=12, n_blocks=[3, 4, 23, 3], atrous_rates=[6, 12, 18, 24])
+    model = get_smp_model('FPN','efficientnet-b0')
     # 데이터셋 경로
     dataset_path = '../../input/data'
     # anns_file_path = dataset_path + '/' + 'train.json'
