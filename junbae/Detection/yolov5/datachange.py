@@ -77,6 +77,6 @@ def make_data(data_path, json_path,folder_name,is_test=False):
 
 if __name__ == '__main__':
     data_path = "/opt/ml/input/data"
-    json_path = "/opt/ml/input/data/train_data3.json"
-    folder_name = "train_data3"
+    json_path = "/opt/ml/input/data/train_data4.json"
+    folder_name = "train_data4"
     make_data(data_path,json_path,folder_name)

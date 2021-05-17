@@ -13,22 +13,21 @@ def make_filename(x):
 def line_make(x):
     x = x.replace("\n","")
     x = x.split(" ")
-    x[2] = float(x[2]) * 512.0 # x center
-    x[3] = float(x[3]) * 512.0 # y center
-    x[4] = float(x[4]) * 512.0 # w
-    x[5] = float(x[5]) * 512.0 # h
+    x[1] = float(x[1]) * 512.0 # x center
+    x[2] = float(x[2]) * 512.0 # y center
+    x[3] = float(x[3]) * 512.0 # w
+    x[4] = float(x[4]) * 512.0 # h
     
+    x[1] = x[1] - x[3]/2
     x[2] = x[2] - x[4]/2
-    x[3] = x[3] - x[5]/2
 
+    x[3]+=x[1]
     x[4]+=x[2]
-    x[5]+=x[3]
+    x[1] = str(x[1])
     x[2] = str(x[2])
     x[3] = str(x[3])
     x[4] = str(x[4])
-    x[5] = str(x[5])
-    return ' '.join(x)
-
+    return ' '.join([x[0],x[5],x[1],x[2],x[3],x[4]])
 
 
 def make_submission(path_dir):
@@ -68,14 +67,15 @@ def make_submission(path_dir):
 
 
 if __name__ == '__main__':
-    det_dir = "/opt/ml/code/yolov5/runs/detect/exp"
-    submission_name = 'yolov5_epoch57_batch32_best.csv'
-    prediction_strings,file_names = make_submission(det_dir)
+    runs_dir = "/opt/ml/p3-ims-obd-connectnet/junbae/Detection/yolov5/runs"
+    fold_dir = "fold3"
+    submission_name = 'yolov5_fold3_e150_b32.csv'
+    prediction_strings,file_names = make_submission(os.path.join(runs_dir,"detect",fold_dir))
     
 
     print(prediction_strings)
     submission = pd.DataFrame()
     submission['PredictionString'] = prediction_strings
     submission['image_id'] = file_names
-    submission.to_csv(os.path.join(det_dir,submission_name), index=None)
+    submission.to_csv(os.path.join(runs_dir,"train",fold_dir,submission_name), index=None)
     print(submission.head())
