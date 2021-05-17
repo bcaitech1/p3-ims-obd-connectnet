@@ -49,7 +49,7 @@
 
 ### 학습진행
 - train.py파일 실행
-  - `python train.py --img 512 --batch 32 --epochs 100 --data bcai.yaml --weights yolov5x.pt`
+  - `python train.py --img-size 512 --batch-size 32 --epochs 100 --data bcai.yaml --weights yolov5x.pt`
   - 이미지크기 512, 배치 32, epoch 100
   - bcai.yaml(위에서 만든 yaml, data폴더에 넣으면 알아서 인식)
   - weight는 원하는 pretrain모델 가져온다.
@@ -57,7 +57,7 @@
 
 ### 학습결과 확인
 - detect.py실행
-  - python detect.py --img-size 512 --source /opt/ml/input/data/images/test --weights runs/train/exp/weights/best.pt --save-txt --save-conf
+  - `python detect.py --img-size 512 --source /opt/ml/input/data/images/test --weights runs/train/exp/weights/best.pt --save-txt --save-conf`
   - 이미지 사이즈 512
   - source는 test이미지 불러오기
   - weight는 학습한 모델 경로
