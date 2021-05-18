@@ -252,3 +252,5 @@ crashlytics-build.properties
 fabric.properties
 
 config.py
+
+yolotmp2/*
