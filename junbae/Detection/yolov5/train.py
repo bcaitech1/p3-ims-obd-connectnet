@@ -35,6 +35,8 @@ from utils.plots import plot_images, plot_labels, plot_results, plot_evolution
 from utils.torch_utils import ModelEMA, select_device, intersect_dicts, torch_distributed_zero_first, is_parallel
 from utils.wandb_logging.wandb_utils import WandbLogger, check_wandb_resume
 
+from utils.seed_everything import seed_everything
+
 logger = logging.getLogger(__name__)
 
 
@@ -452,6 +454,7 @@ def train(hyp, opt, device, tb_writer=None):
 
 
 if __name__ == '__main__':
+    seed_everything(2021)
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', type=str, default='yolov5s.pt', help='initial weights path')
     parser.add_argument('--cfg', type=str, default='', help='model.yaml path')

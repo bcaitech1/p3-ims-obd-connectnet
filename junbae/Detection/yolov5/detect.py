@@ -12,7 +12,7 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path, save_one_box
 from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
-
+from utils.seed_everything import seed_everything
 
 def detect(opt):
     source, weights, view_img, save_txt, imgsz = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
@@ -147,6 +147,7 @@ def detect(opt):
 
 
 if __name__ == '__main__':
+    seed_everything(2021)
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='yolov5s.pt', help='model.pt path(s)')
     parser.add_argument('--source', type=str, default='data/images', help='source')  # file/folder, 0 for webcam
