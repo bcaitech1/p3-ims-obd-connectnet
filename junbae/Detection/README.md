@@ -67,6 +67,21 @@
 ### submission생성
 - `python mk_submission.py`
 
+### psudo 적용
+- 기존train(img,label)파일과 더불어 test(img만존재)에서 학습한 모델에서 label을 생성
+- 기존train과 test(label생성)을 같이 학습을 적용
+- test파일에서 psudo labeling적용
+  - 일반 detect는 (cls, x_center,y_center,w,h)로 저장됩니다.
+  - detect_psudo라는 파일로는 (cls, x_min,y_min,w,h)/이미지크기 로 저장을 해준다.
+  - `python detect_psudo.py --img-size 512 --source /opt/ml/input/data/images/test --weights /opt/ml/p3-ims-obd-connectnet/junbae/Detection/yolov5/runs/train/fold2/weights/best.pt --save-txt --nosave --name psudo_fold_2`
+- psudo label한 파일 이동
+  - `python move_psudo_label.py --source /opt/ml/p3-ims-obd-connectnet/junbae/Detection/yolov5/runs/detect/psudo_fold_2/labels --dst /opt/ml/input/data/labels/test`
+- data `yaml`도 psudo test를 추가
+  - train부분에 `/input/data/images/test`추가
+- 기존 학습한weight를 통해 재학습
+  - `python train.py --img-size 512 --batch-size 32 --epochs 300 --data bcai_k2_psudo.yaml --weights /opt/ml/p3-ims-obd-connectnet/junbae/Detection/yolov5/runs/train/fold2/weights/best.pt --name fold2_psudo`
+
+
 
 ### 참고
 - https://github.com/ultralytics/yolov5
