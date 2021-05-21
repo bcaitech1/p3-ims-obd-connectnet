@@ -386,6 +386,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
 #### 5. Ensemble <a name = 'ensemble2'></a>
 <img src="https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/ConnectNet/Segmentation/images/model_em.png?raw=true" width="600" height="600">
+
 - 총 26개 모델을 WBF와 threshold 최적화를 이용하여 앙상블
 - stratified kfold방식으로 데이터셋을 5개(fold0,fold1,fold2,fold3,fold4)로 나뉘어 학습하여 앙상블
 - 기준(0.5이상)을 넘긴 모델 앙상블 목록
