@@ -38,13 +38,13 @@
 2.4 [사용한 기술](#skill2)<br>
 2.5 [Ensemble](#ensemble2)<br>
 2.6 [실패한 부분](#fail2)<br>
-   
+
 
 ---
 
 ### 🌏Team - ConnectNet <a name = 'Team'></a>
 
-* 김종호_T1034 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/Headbreakz) 
+* 김종호_T1034 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/Headbreakz) [![Blog Badge](http://img.shields.io/badge/Blog-51a9fe?style=flat&link=https://philgineer.com/)](https://headbreakz.tistory.com/)
 * 김현우_T1045 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/LethalSun)
 * 김현우_T1046 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/akorea)
 * 배철환_T1086 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/bcc0830)
@@ -171,7 +171,7 @@
 - Backbone : efficientb3-noisy-student
 - Optimizer : AdamW
 
-![seg_chart](C:\Users\knigh\Desktop\seg_chart.png)
+![seg_chart](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/Team/headbreakz/Image/seg_chart.png?raw=true)
 
 
 
@@ -352,7 +352,9 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
   - cutmix와 차이점 : cutmix는 자른 사진이 다른 사진을 가리는 구조, Mosaic은 4장의 랜덤하게 자른 사진을 하나로 합치는 구조
 
-    ![Untitled](C:\Users\knigh\Desktop\Untitled.png)
+    ![mosaic](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/Team/headbreakz/Image/mosaic.png?raw=true)
+    
+    
 
 - Mixup
 
