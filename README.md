@@ -105,17 +105,11 @@
 1. efficientb3-noisy-student , FPN
 
 - LB 점수 : 0.6248
-
 - 모델 : decoder : FPN, backbone : efficientb3-noisy-student
-
 - loss : Jaccard + SoftCE
-
 - optimizer : AdamP (learning_rate = 0.0001), LookAhead 
-
 - hyperparameters : Batch size 4, Epochs : 40
-
 - augmentation
-
   - HorizontalFlip
   - ShiftScaleRotate
   - RandomBrightnessContrast
