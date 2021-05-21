@@ -324,22 +324,19 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
   - 이미지 4장을 각각 무작위로 잘라서 하나의 사진으로 만드는 augmentation
   - cutmix와 차이점 : cutmix는 자른 사진이 다른 사진을 가리는 구조, Mosaic은 4장의 랜덤하게 자른 사진을 하나로 합치는 구조
-
     ![mosaic](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/Team/headbreakz/Image/mosaic.png?raw=true)
-    
-    
 
-- Mixup
-- RandomRotate90
-- HueSaturationValue
-- CLAHE
-- RandomBrightnessContrast
-- RGBShift
-- Blur
-- MotionBlur
-- GaussNoise
-- ShiftScaleRotate
-- Multi-scale
+  - Mixup
+  - RandomRotate90
+  - HueSaturationValue
+  - CLAHE
+  - RandomBrightnessContrast
+  - RGBShift
+  - Blur
+  - MotionBlur
+  - GaussNoise
+  - ShiftScaleRotate
+  - Multi-scale
 
 
 
