@@ -110,7 +110,7 @@
 
 - loss : Jaccard + SoftCE
 
-- optimizer : AdamP (learning_rate = 0.0001)
+- optimizer : AdamP (learning_rate = 0.0001), LookAhead 
 
 - hyperparameters : Batch size 4, Epochs : 40
 
@@ -125,7 +125,6 @@
     - A.CropNonEmptyMaskIfExists(height=300, width=300, p=0.2),], p=0.5)
     - A.Resize(256, 256)
 - SWA 
-- LookAhead 
 
 
 
