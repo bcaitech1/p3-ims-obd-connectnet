@@ -1,6 +1,8 @@
-### 부스트캠프 - AI Tech
+### 부스트캠프 AI Tech - Team Project
 
-### P stage 3 - Semantic Segmentation & Object Detection
+|Title|Task|Date|Team|
+|---|---|---|---|
+|재활용 쓰레기 이미지 객체 영역 구분 & 객체 탐지|Semantic Segmentation & Object Detection|2021.04.26 ~ 2021.05.21|5조 ConnectNet|
 
 > `P stage 3 대회 진행 과정과 결과를 기록한 Team Git repo 입니다. 대회 특성상 수정 혹은 삭제된 부분이 존재 합니다`
 
