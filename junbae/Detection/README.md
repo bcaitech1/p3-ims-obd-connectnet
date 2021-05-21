@@ -88,10 +88,13 @@
 ### 학습 
 - swin_train.ipynb실행
 
+### 재학습
+- swin_train.inpynb에서 swint_retrain.py로 config를 변경하기
+
 ### 확인
 - swin_inference.ipynb실행
 
-### 참고
+## 참고
 - https://github.com/ultralytics/yolov5
 
 
