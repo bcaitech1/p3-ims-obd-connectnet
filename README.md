@@ -6,41 +6,38 @@
 
 ---
 
-#### ✔️Segmentation Team Rank : 17, 0.6205
+#### ✔️ Segmentation Task
+   * Rank: 17
+   * LB: 0.6205
 
-#### ✔️Object Detection Team Rank : 5, 0.4789
+#### ✔️ Object Detection Task
+   * Rank : 5
+   * LB: 0.4789
 
 
 
-### 📋Table of content
+### 📋 Table of content
 
-##### [Team - ConnectNet](#Team)
+[Team 소개](#Team)<br>
+[Gound Rule](#rule)<br>
 
-1. [Gound Rule](#rule)
+#### 1. [Segmentation](#seg)
 
-##### [Segmentation](#seg)
+1.1 [대회 전략](#strategy1)<br>
+1.2 [Model](#model1)<br>
+1.3 [Loss](#loss1)<br>
+1.4 [Augmentation](#aug1)<br>
+1.5 [실패한 부분](#fail1)<br>
+1.6 [회고 & 과제](#try1)<br>
 
-1. [대회 전략](#strategy1)
-2. [Model](#model1)
-3. [Loss](#loss1)
-4. [Augmentation](#aug1)
-5. [실패한 부분](#fail1)
-6. [회고 & 과제](#try1)
+#### 2. [Object Detection](#obd)
 
-##### [Object Detection](#obd)
-
-1. [대회 전략](#strategy2)
-
-2. [Model](#model2)
-
-3. [Augmentation](#aug2)
-
-4. [사용한 기술](#skill2)
-
-5. [Ensemble](#ensemble2)
-
-6. [실패한 부분](#fail2)
-
+2.1 [대회 전략](#strategy2)<br>
+2.2 [Model](#model2)<br>
+2.3 [Augmentation](#aug2)<br>
+2.4 [사용한 기술](#skill2)<br>
+2.5 [Ensemble](#ensemble2)<br>
+2.6 [실패한 부분](#fail2)<br>
    
 
 ---
@@ -61,16 +58,14 @@
 
 
 
-#### 1. Ground rule <a name = 'rule'></a>
+#### Ground rule <a name = 'rule'></a>
 
 1. 공유 코드 작성 시
-
    * `작성자 표시`
    * `함수` 단위 작성
    * `merge` 시  .py 형식 사용
    
 2. 모델 로그 기록
-
    * `Wandb` 사용
 
 3. 회의 기록 작성
@@ -261,7 +256,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
 
 
-### 🔍Object Detection
+### 🔍Object Detection <a name = 'obd'></a>
 
 [전체 실험 내용](https://docs.google.com/spreadsheets/d/1JiopsJGh2aBIpnw7WPP2OvHHAEYdR9s0kT86OwruvAk/edit#gid=346165051)
 
