@@ -82,6 +82,14 @@
   - `python train.py --img-size 512 --batch-size 32 --epochs 300 --data bcai_k2_psudo.yaml --weights /opt/ml/p3-ims-obd-connectnet/junbae/Detection/yolov5/runs/train/fold2/weights/best.pt --name fold2_psudo`
 
 
+## mmdet
+- swinT모델 사용
+
+### 학습 
+- swin_train.ipynb실행
+
+### 확인
+- swin_inference.ipynb실행
 
 ### 참고
 - https://github.com/ultralytics/yolov5
