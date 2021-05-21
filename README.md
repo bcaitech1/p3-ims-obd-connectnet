@@ -475,27 +475,30 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
 
 
-# 참고 자료
+# Reference
 
-### 논문
+### Paper
 
 * [Zero-Shot Object Detection](https://arxiv.org/abs/1804.04340)
-
 
 
 ### GIt
 
 * [Segmentation loss](https://github.com/JunMa11/SegLoss)
 * [Segmentation Models](https://github.com/qubvel/segmentation_models.pytorch)
+* [Lookahead optimizer](https://github.com/alphadl/lookahead.pytorch)
+* [Weighted Boxes Fusion](https://github.com/ZFTurbo/Weighted-Boxes-Fusion)
+* [Swin Transformer Object Detection](https://github.com/SwinTransformer/Swin-Transformer-Object-Detection)
 
 
-
-### Site
+### Site & Kaggle
 
 * [TACO Dataset](http://tacodataset.org/)
 * [DeepLab_V3+](https://medium.com/hyunjulie/2%ED%8E%B8-%EB%91%90-%EC%A0%91%EA%B7%BC%EC%9D%98-%EC%A0%91%EC%A0%90-deeplab-v3-ef7316d4209d)
 * [BCE loss](https://sosoeasy.tistory.com/337)
 * [Loss Function 이해하기](https://keepdev.tistory.com/48)
+* [MMDetection documentation](https://mmdetection.readthedocs.io/en/latest/index.html)
+* [Kaggle Wheat Detection](https://www.kaggle.com/c/global-wheat-detection)
 
 
 
