@@ -410,9 +410,9 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 #### 6. 실패한 부분 <a name = 'fail2'></a>
 
 - pseudo labeling
-  - 테스트 데이터셋을 inference 하면 csv 파일이 생성된다. LB 성능이 가장 좋은 결과 파일을 csv 파일을 기준으로 pseudo labeling 을 생성한다.
-  - BBox 성능이 0.75 이상의 값만 읽어 COCO dataset  의 파일인 pseudo.json 파일을 생성한다.
-  - pseudo.json 파일로 모델을 재학습시킨 모델의 성능을 올린다.
+  - 가장 높은 LB CSV 파일로 pseudo labeling 을 생성
+  - BBox 성능이 0.75 이상의 값만 사용하여,  pseudo.json 파일을 생성
+  - pseudo.json 파일로 모델을 재학습 진행
 
 
 
