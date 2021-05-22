@@ -496,7 +496,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
 ### 편의 기능
 
-* [GIt 사용하기](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/headbreakz/git.md)
+* [GIt 사용하기](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/Team/headbreakz/git.md)
 * [서버에서 제출하기 CODE](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/akorea/akorea/submit.py)
 * [Wandb 간단 사용팁](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/akorea/akorea/tips/wandb.md)
 
