@@ -1,0 +1,17 @@
+{
+    "seed": 21,
+    "epochs": 43,
+    "transform": "mask_crop4",
+    "vtransform": "basic",
+    "batch_size": 12,
+    "optim": "AdamW",
+    "lr": 0.0001,
+    "data_ratio": -1,
+    "criterion": "cross_entropy",
+    "weight_decay": 1e-6,
+    "model":"FPN",
+    "enc_name":"efficientnet-b3",
+    "lr_scheduler": "none",
+    "lr_step":0,
+    "test":"Look"
+}

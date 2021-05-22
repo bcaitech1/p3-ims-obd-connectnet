@@ -1,6 +1,8 @@
-### 부스트캠프 - AI Tech
+### 부스트캠프 AI Tech - Team Project
 
-### P stage 3 - Semantic Segmentation & Object Detection
+|Title|Task|Date|Team|
+|---|---|---|---|
+|재활용 쓰레기 이미지 객체 영역 구분 & 객체 탐지|Semantic Segmentation & Object Detection|2021.04.26 ~ 2021.05.21|5조 ConnectNet|
 
 > `P stage 3 대회 진행 과정과 결과를 기록한 Team Git repo 입니다. 대회 특성상 수정 혹은 삭제된 부분이 존재 합니다`
 
@@ -49,8 +51,8 @@
 * 김현우_T1046 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/akorea)
 * 배철환_T1086 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/bcc0830)
 * 서준배_T1097 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/deokisys)
+[![Blog Badge](http://img.shields.io/badge/Blog-51a9fe?style=flat&link=https://philgineer.com/)](https://deokisys.github.io/)
 * 윤준호_T1138 [![Github Badge](https://img.shields.io/badge/-Github-161c22?style=flat&logo=github&link=https://github.com/philgineer/)](https://github.com/philgineer) [![Blog Badge](http://img.shields.io/badge/Blog-51a9fe?style=flat&link=https://philgineer.com/)](https://philgineer.com/)
-
 
 
 #### Ground rule <a name = 'rule'></a>
@@ -105,17 +107,11 @@
 1. efficientb3-noisy-student , FPN
 
 - LB 점수 : 0.6248
-
 - 모델 : decoder : FPN, backbone : efficientb3-noisy-student
-
 - loss : Jaccard + SoftCE
-
-- optimizer : AdamP (learning_rate = 0.0001)
-
+- optimizer : AdamP (learning_rate = 0.0001), LookAhead 
 - hyperparameters : Batch size 4, Epochs : 40
-
 - augmentation
-
   - HorizontalFlip
   - ShiftScaleRotate
   - RandomBrightnessContrast
@@ -125,7 +121,6 @@
     - A.CropNonEmptyMaskIfExists(height=300, width=300, p=0.2),], p=0.5)
     - A.Resize(256, 256)
 - SWA 
-- LookAhead 
 
 
 
@@ -260,17 +255,11 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 * [Global wheat detection](https://www.kaggle.com/c/global-wheat-detection) 분석을  통해 사전 실험의 방향성을 수립
 
 * 모델 설정
-
 * augmentation & loss 조합 실험
-
 * Multi Scale Train
-
 * TTA
-
 * WBF
-
 * Pseudo Labeling  
-
 * hyper parameter  튜닝
 
   
@@ -308,17 +297,11 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 2. YOLO 계열
 
    - DarkNet / SPP / YOLO v5
-
      - LB : 0.4916
-
      - loss : CrossEntropy (150 epoch models), Focal Loss (240 epoch models)
-
      - optimizer : SGD (learning_rate = 0.01)
-
      - hyperparameters : batch : 32, epochs : 150 or 240
-
      - TTA 
-
      - 원본 사이즈의 절반으로 Multi-scale train 진행 
 
        
@@ -326,20 +309,13 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 3. Swin 계열
 
    - SwinTransformer / FPN / Mask R-CNN
-
      - LB: 0.5486
-
      - cls_loss: LabelSmooth + CE + Focal (각 box_head 별)
-
      - bbox_loss: SmoothL1Loss
-
      - optimizer: AdamW (learning_rate = 0.0001)
-
      - 재학습 
-
        - loss 변경 
        - augmentation 추가
-
      - TTA
 
        
@@ -349,34 +325,21 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 - Mosaic
 
   - 이미지 4장을 각각 무작위로 잘라서 하나의 사진으로 만드는 augmentation
-
   - cutmix와 차이점 : cutmix는 자른 사진이 다른 사진을 가리는 구조, Mosaic은 4장의 랜덤하게 자른 사진을 하나로 합치는 구조
-
+  
     ![mosaic](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/Team/headbreakz/Image/mosaic.png?raw=true)
-    
-    
 
-- Mixup
-
-- RandomRotate90
-
-- HueSaturationValue
-
-- CLAHE
-
-- RandomBrightnessContrast
-
-- RGBShift
-
-- Blur
-
-- MotionBlur
-
-- GaussNoise
-
-- ShiftScaleRotate
-
-- Multi-scale
+  - Mixup
+  - RandomRotate90
+  - HueSaturationValue
+  - CLAHE
+  - RandomBrightnessContrast
+  - RGBShift
+  - Blur
+  - MotionBlur
+  - GaussNoise
+  - ShiftScaleRotate
+  - Multi-scale
 
 
 
@@ -414,18 +377,15 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 4. WBF hyperparameter
 
    * IOU threshold 와 Skip box threshold 조정
-
    * IOU threshold는 특정 임계값 이하로 내리면 오히려 성능이 하락
-
    * Skip box threshold는 낮은 값인 경우, test data visualization 시 지나치게 많은 박스가 존재하여 직관적으로는 납득하기 어려움
-
    *  최종값
-
      *  IOU threshold : 0.4, Skip box threshold : 0.01
 
      
 
 #### 5. Ensemble <a name = 'ensemble2'></a>
+<img src="https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/ConnectNet/Segmentation/images/model_em.png?raw=true" width="600" height="600">
 
 - 총 26개 모델을 WBF와 threshold 최적화를 이용하여 앙상블
 - stratified kfold방식으로 데이터셋을 5개(fold0,fold1,fold2,fold3,fold4)로 나뉘어 학습하여 앙상블
@@ -453,14 +413,6 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
   - 테스트 데이터셋을 inference 하면 csv 파일이 생성된다. LB 성능이 가장 좋은 결과 파일을 csv 파일을 기준으로 pseudo labeling 을 생성한다.
   - BBox 성능이 0.75 이상의 값만 읽어 COCO dataset  의 파일인 pseudo.json 파일을 생성한다.
   - pseudo.json 파일로 모델을 재학습시킨 모델의 성능을 올린다.
-
-
-
-
-
-
-
-
 
 
 
