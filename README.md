@@ -101,6 +101,7 @@
   * Image 생성 - 김현우T1045 진행
   
     
+<br>
 
 #### 2. Model <a name = 'model1'></a>
 
@@ -122,7 +123,7 @@
     - A.Resize(256, 256)
 - SWA 
 
-
+<br>
 
 2. se_resnext101_32x4d, FPN
 
@@ -138,7 +139,7 @@
   - RandomBrightnessContrast(brightness_limit=0.15, contrast_limit=0.2, p=0.5)
   - RandomResizedCrop(512,512,scale = (0.5,0.8))
 
-
+<br>
 
 3. efficient-b3 , FPN
 
@@ -156,7 +157,7 @@
 - pseudo hyperparameters : batch 8, epochs 20
 - pseudo 학습: Fold로 나뉜 모델, 각각 psudo labeling 학습 진행
 
-
+<br>
 
 #### 3. Loss <a name = 'loss1'></a>
 
@@ -168,7 +169,7 @@
 
 ![seg_chart](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/Team/headbreakz/Image/seg_chart.png?raw=true)
 
-
+<br>
 
 #### 4. Augmentation <a name = 'aug1'></a>
 
@@ -176,7 +177,7 @@
 
 ![arg0](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/akorea/akorea/segment/images/arg0.png?raw=true)
 
-
+<br>
 
 * 사진을 어떻게 자를 것인가? [자세한 내용](https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/akorea/akorea/segment/tips/crop.md)
 
@@ -189,7 +190,7 @@ Scale46 = RandomResizedCrop(512,512,scale = (0.4,0.6))
 Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 ```
 
-
+<br>
 
 #### 5. 실패한 부분 <a name = 'fail1'></a>
 
@@ -214,9 +215,9 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
         
   ```
 
-  → 그러나,  CE(output, mos)는 사실상 같은 값이기 때문에 값이 0에 수렴하여 의미가 없다. 따라서, 위  pseudo code는 원래의  pseudo-labeling의 의도와는 다른 방식으로 작동한다. 그럼에도 불구하고 적용하지 않았을 때 보다 0.06이 상승하는 효과가 있었는데, 이는 단순히 내부 for문에 의해 train이 추가적으로 이루어진 결과에 기인한다고 생각한다.
+  → CE(output, mos)는 사실상 같은 값이기 때문에 값이 0에 수렴하여 의미가 없다. 따라서, 위  pseudo code는 원래의  pseudo-labeling의 의도와는 다른 방식으로 작동한다. 그럼에도 불구하고 적용하지 않았을 때 보다 0.06이 상승하는 효과가 있었는데, 이는 단순히 내부 for문에 의해 train이 추가적으로 이루어진 결과에 기인한다고 생각한다.
 
-
+<br>
 
 #### 6. 회고 & 과제 <a name = 'try1'></a>
 
@@ -244,6 +245,8 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
 ---
 
+<br>
+<br>
 
 
 ### 🔍Object Detection <a name = 'obd'></a>
@@ -262,7 +265,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 * Pseudo Labeling  
 * hyper parameter  튜닝
 
-  
+<br>
 
 #### 2. Model <a name = 'model2'></a>
 
@@ -292,7 +295,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
      - hyperparameters : batch : 4, epochs : 48 or 60
      - TTA : vertical, horizontal flip, 512,  768 resize
 
-     
+<br>
 
 2. YOLO 계열
 
@@ -304,7 +307,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
      - TTA 
      - 원본 사이즈의 절반으로 Multi-scale train 진행 
 
-       
+<br>      
 
 3. Swin 계열
 
@@ -318,7 +321,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
        - augmentation 추가
      - TTA
 
-       
+<br>       
 
 #### 3. Augmentation <a name = 'aug2'></a>
 
@@ -341,7 +344,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
   - ShiftScaleRotate
   - Multi-scale
 
-
+<br>
 
 #### 4. 사용한 기술 <a name = 'skill2'></a>
 
@@ -353,12 +356,12 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
    * 데이터 추가 후 기본 베이스 라인 코드로 테스트 결과 0.05정도 점수 상승해서 폴드별로 데이터 추가
    * SWIN_T에서는 마스크 부분이 새로 생성된 이미지에 존재하지 않아 적용하지 못함.
 
-
+<br>
 
 2. WBF
    * 여러개의 bounding box를 각각의 확률을 가중평균으로 하여 하나의 bounding box로 나타내는 방식
 
-
+<br>
 
 3. Pseudo-Labeling
 
@@ -372,7 +375,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
 
       * 학습 데이터는 기본 train data + 1단계 모델 Pseudo-Labeling test data mixup
 
-      
+<br>      
 
 4. WBF hyperparameter
 
@@ -382,7 +385,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
    *  최종값
      *  IOU threshold : 0.4, Skip box threshold : 0.01
 
-     
+<br>    
 
 #### 5. Ensemble <a name = 'ensemble2'></a>
 <img src="https://github.com/bcaitech1/p3-ims-obd-connectnet/blob/master/ConnectNet/Segmentation/images/model_em.png?raw=true" width="600" height="600">
@@ -405,7 +408,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
       - fold0, fold1, fold2, fold3, fold4
       - train all data
 
-
+<br>
 
 #### 6. 실패한 부분 <a name = 'fail2'></a>
 
@@ -414,7 +417,7 @@ Scale24 = RandomResizedCrop(512,512,scale = (0.2,0.4))
   - BBox 성능이 0.75 이상의 값만 사용하여,  pseudo.json 파일을 생성
   - pseudo.json 파일로 모델을 재학습 진행
 
-
+<br>
 
 
 
